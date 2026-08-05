@@ -92,7 +92,16 @@ app.get("/:code", (req, res, next) => {
   const db = readDB();
   const entry = db[req.params.code];
 
-  if (!entry) return next(); // deixa cair no 404 padrão / index
+  if (!entry) return next();
+
+  // Expira após 7 dias
+  const seteDias = 7 * 24 * 60 * 60 * 1000;
+
+  if (Date.now() - new Date(entry.createdAt).getTime() > seteDias) {
+    delete db[req.params.code];
+    writeDB(db);
+    return res.status(410).send("Este link expirou.");
+  }
 
   entry.clicks += 1;
   writeDB(db);
