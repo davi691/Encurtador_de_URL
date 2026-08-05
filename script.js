@@ -82,6 +82,10 @@
 
   async function renderManifest() {
     const links = await fetchLinks();
+    const totalClicks = links.reduce((total, link) => total + link.clicks, 0);
+
+document.getElementById("totalClicks").textContent =
+    `Total de cliques: ${totalClicks}`;
     els.manifestList.innerHTML = "";
 
     if (links.length === 0) {

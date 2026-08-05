@@ -552,3 +552,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+#totalClicks {
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 10px;
+    background: #1e293b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
