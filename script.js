@@ -1,10 +1,8 @@
 (() => {
   "use strict";
 
-  // Agora os links são criados e guardados pelo servidor (server.js),
-  // não mais só no navegador. Isso é o que faz o link curto funcionar
-  // de verdade para qualquer pessoa que clicar nele.
-  const API_BASE = ""; // mesmo host que serviu esta página (ex: http://localhost:3000)
+
+  const API_BASE = "";
 
   const els = {
     domainInput: document.getElementById("customDomain"),
@@ -23,11 +21,6 @@
     btnClear: document.getElementById("btnClear"),
   };
 
-  // ---------- domain field ----------
-  // Isso é só cosmético, para você visualizar o prefixo enquanto digita o
-  // apelido. O link que REALMENTE funciona é sempre o do host que está
-  // servindo a página (window.location.origin) — que passa a ser o seu
-  // domínio automaticamente quando você publicar o servidor lá.
   function currentHost() {
     return window.location.host;
   }
@@ -222,6 +215,24 @@ document.getElementById("totalClicks").textContent =
       await renderManifest();
     }
   });
+    // ---------- tema claro/escuro ----------
+  const themeToggle = document.getElementById("themeToggle");
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    try { localStorage.setItem("linka:theme", theme); } catch {}
+    themeToggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Mudar para modo claro" : "Mudar para modo escuro"
+    );
+  }
+
+  themeToggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme") || "light";
+    applyTheme(current === "dark" ? "light" : "dark");
+  });
+
+  applyTheme(document.documentElement.getAttribute("data-theme") || "light");
 
   // ---------- init ----------
   refreshDomainUI();
